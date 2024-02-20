@@ -1,0 +1,41 @@
+<div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <c-container>
+    <c-row class="justify-content-center">
+      <c-col md="8">
+        <c-card-group>
+          <c-card class="p-4">
+            <c-card-body>
+              <form cForm class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+                <h1>Login</h1>
+                <p class="text-medium-emphasis">Sign In to your account</p>
+                <c-input-group class="mb-3">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilUser"></svg>
+                  </span>
+                  <input autoComplete="username" cFormControl placeholder="Username" class="form-control"
+                    formControlName="username" />
+                </c-input-group>
+                <c-input-group class="mb-4">
+                  <span cInputGroupText>
+                    <svg cIcon name="cilLockLocked"></svg>
+                  </span>
+                  <input autoComplete="current-password" cFormControl placeholder="Password" type="password"
+                    class="form-control" formControlName="password" appShowHidePassword />
+                </c-input-group>
+                <c-row>
+                  <c-col xs="8"></c-col>
+                  <c-col xs="4">
+                    <button (click)="onValidate()" [disabled]="loginForm.invalid" cButton type="submit" class="px-4"
+                      color="primary"> 
+                      Login
+                    </button>
+                  </c-col>
+                </c-row>
+              </form>
+            </c-card-body>
+          </c-card>
+        </c-card-group>
+      </c-col>
+    </c-row>
+  </c-container>
+</div>
