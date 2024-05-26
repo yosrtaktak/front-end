@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 
 import { navItems } from './_nav';
-
+import { LoginService } from 'src/app/service/login.service';
+import {navItemsUser} from './navUser'
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
@@ -10,6 +11,6 @@ import { navItems } from './_nav';
 export class DefaultLayoutComponent {
 
   public navItems = navItems;
-
-  constructor() {}
+  public navItemsUser = navItemsUser;
+  constructor(public loginService:LoginService) {}
 }

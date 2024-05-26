@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+  <style>
+    /* Ajoute une barre de défilement uniquement pour l'affichage mobile */
+    @media (max-width: 767px) {
+      .example-container {
+        overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+        display: block; /* Permet au conteneur de définir sa propre largeur */
+      }
+      body{
+        max-width: 100%;
+      }
+    }
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333; 
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+    <c-container fluid>
+      <button [cNavbarToggler]="collapseRef"></button>
+      <div #collapseRef="cCollapse" navbar cCollapse>
+        <c-navbar-nav class="me-auto mb-2 mb-lg-0">
+          <c-nav-item>
+            <a cNavLink routerLink="./dashboard" >Menu</a>
+          </c-nav-item>
+          <c-nav-item>
+            <a cNavLink disabled class="d-block d-lg-none d-xl-block"></a>
+          </c-nav-item>
+        </c-navbar-nav>
+        <form cForm class="d-flex" role="search">
+          <input cFormControl type="search" (keyup)="applyFilter($event)" placeholder="Search" aria-label="Search" class="me-2">
+          <mat-icon  style="margin-top: 7px;padding-right:50px ; ">search</mat-icon>
+        </form>
+       
+      </div>
+    </c-container>
+  </c-navbar>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <style>
+      .page-heading {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333; 
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+    
+  
+  <mat-toolbar style="background-color: #1c569f">
+  <div class="row">
+    <div class="col-3">
+      <p class="page-heading" style="color: azure;"> Liste des rapports</p>
+    </div>
+    <div class="col-4">
+     
+  
+    </div>
+  </div>
+  </mat-toolbar>
+  <br>
+  <button style="margin-bottom: 18px;" cButton color="dark" variant="outline"  (click)="onAdd()"><mat-icon style="height: 17px;">add</mat-icon></button>
+  <br>
+  
+  <!-- <c-header>
+    <c-container fluid>
+      <c-header-brand [routerLink]>Brand</c-header-brand>
+      <c-header-nav class="ms-auto">
+        <c-nav-item>
+          <a [active]="true" [routerLink] cNavLink><button cButton color="light" variant="outline"  (click)="onAdd()"><mat-icon style="height: 17px">add</mat-icon> Ajouter Rapport</button></a>
+        </c-nav-item>
+        <c-nav-item>
+        
+      </c-nav-item>  
+      </c-header-nav>
+        </c-container>
+   </c-header>    -->
+  <section class="example-container mat-elevation-z8" tabindex="0" >
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <!-- <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by number">Code rapport </th>
+          <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+        </ng-container> -->
+        <!-- Position Column -->
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by number">Code rapport</th>
+          <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="Année" >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="Année" >Année</th>
+          <td mat-cell *matCellDef="let element" class="data-cell"> {{element.year}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="Mois">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="Mois" class="column-header">Mois</th>
+          <td mat-cell *matCellDef="let element" class="data-cell"> {{element.monthName}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="Etat">
+          <th mat-header-cell *matHeaderCellDef> Etat </th>
+          <td mat-cell *matCellDef="let element"> {{ getStatusLabel(element.etat)}}
+        </td>
+        </ng-container>
+        <!-- <mat-form-field>
+          <mat-label>Etat</mat-label>
+          <mat-select formControlName="Etat" multiple (selectionChange)="change($event)" >
+            <mat-option *ngFor="let etat of etatList" [value]="etat">{{ etat }}</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Commentaire">
+          <th mat-header-cell *matHeaderCellDef> Commentaire </th>
+          <td mat-cell *matCellDef="let element"> {{element.comment}} </td>
+        </ng-container>
+        <ng-container *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+          <ng-container matColumnDef="Utilisateur">
+            <th mat-header-cell *matHeaderCellDef>Utilisateur</th>
+            <td mat-cell *matCellDef="let element">{{element.user.username}}</td>
+          </ng-container>
+        </ng-container>
+        <ng-container matColumnDef="Detail">
+          <th mat-header-cell *matHeaderCellDef>Detail</th>
+          <td mat-cell *matCellDef="let element" class="detail-cell">
+            <div class="button-container"> <!-- Ajoutez un conteneur pour les boutons -->
+              <ng-container *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+                <button [cPopoverTrigger]="'hover'" cButton cPopover="modifier rapport" cPopoverPlacement="bottom" color="warning" variant="ghost" size="sm" (click)="onEdit(element)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              </ng-container>
+              <button [cPopoverTrigger]="'hover'" cButton cPopover="liste activité" cPopoverPlacement="bottom" color="success" variant="ghost" size="sm" (click)="viewAct(element)">
+                <mat-icon>calendar_today</mat-icon>
+              </button>
+              <button [cPopoverTrigger]="'hover'" cButton cPopover="historique etat rapport" cPopoverPlacement="bottom" color="danger" variant="ghost" (click)="viewHistorique(element)">
+                <mat-icon>history</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      
+    <mat-paginator [pageSizeOptions]="[5 , 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page of periodic elements">
+  </mat-paginator>
+    </section>
+  </html>
+  </body>

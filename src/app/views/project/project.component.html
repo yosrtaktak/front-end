@@ -1,0 +1,121 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+  <style>
+    
+    @media screen and (max-width: 767px) {
+  .custom-button {
+    margin-left: 180px; /* Ajustez la marge gauche selon vos besoins */
+  }
+  .example-container {
+        overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+        display: block; /* Permet au conteneur de définir sa propre largeur */
+      }
+}
+    
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333; 
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="example-container">
+  
+<c-navbar colorScheme="light" expand="lg" class="bg-light" >
+  <c-container fluid>
+    <button [cNavbarToggler]="collapseRef"></button>
+    <div #collapseRef="cCollapse" navbar cCollapse>
+      <c-navbar-nav class="me-auto mb-2 mb-lg-0">
+        <c-nav-item>
+          <a cNavLink routerLink="./dashboard" >Menu</a>
+        </c-nav-item>
+        <c-nav-item>
+          <a cNavLink disabled class="d-block d-lg-none d-xl-block"></a>
+        </c-nav-item>
+      </c-navbar-nav>
+      <form cForm class="d-flex" role="search">
+        <input cFormControl type="search" (keyup)="applyFilter($event)" placeholder="Search" aria-label="Search" class="me-2">
+        <mat-icon  style="margin-top: 7px;padding-right:50px ; ">search</mat-icon>
+      </form>
+     
+    </div>
+  </c-container>
+</c-navbar>
+
+<mat-toolbar style="background-color: #1c569f">
+<div class="row">
+  <div class="col-3">
+    <p class="page-heading" style="color:azure;"> Gestion de projet </p>
+  </div>
+  <div class="col-4">    
+  <button cButton  class="custom-button"  color="light" variant="outline"  (click)="onAdd()"> <mat-icon style="height: 18px">add</mat-icon> Ajouter </button>
+  </div>
+</div>
+</mat-toolbar>
+<br>
+
+
+<div class="example-container mat-elevation-z8 " >
+  <table  mat-table class="table-users" cTable hover [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+    <thead >
+    <ng-container matColumnDef="code" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by code"> code projet</th>
+      <td mat-cell *matCellDef="let element" > {{element.code}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="libelle" style="width: 503px">
+      <div   style="margin-left: 183px;">
+      <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by libelle"> libelle projet </th>
+   
+      <td mat-cell *matCellDef="let element"> {{element.libelle}} </td>
+    </div>
+    </ng-container>
+    <ng-container matColumnDef="creationDate">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header="creationDate" > Date creation</th>
+      <td mat-cell *matCellDef="let element"> {{element.creationDate}} </td>
+    </ng-container>
+    <!-- <ng-container matColumnDef="lot">
+      <th mat-header-cell *matHeaderCellDef> Lot </th>
+      <td mat-cell *matCellDef="let element">
+          <div *ngFor="let lot of lots" >
+            {{ lot.libelle }}
+          </div>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="tache">
+      <th mat-header-cell *matHeaderCellDef>Tache</th>
+      <td mat-cell *matCellDef="let element"> </td>
+    </ng-container> -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element" class="detail-cell">
+        <div class="button-container"> 
+        <button cButton  color="warning" variant="ghost" size="sm" [cPopoverTrigger]="'hover'" cButton  color="warning" variant="ghost" cPopover="modifier projet" cPopoverPlacement="bottom" (click)="onEdit(element)" >
+          <mat-icon>edit</mat-icon>
+        </button> 
+        <button  style="margin: 10px" cButton color="danger" variant="ghost" size="sm" [cPopoverTrigger]="'hover'" cButton  color="danger" variant="ghost" cPopover="supprimer projet" cPopoverPlacement="bottom" (click)="onDelete(element)">
+          <mat-icon>cancel</mat-icon>
+        </button>
+        <button [cPopoverTrigger]="'hover'" cButton cPopover="Détail"  cPopoverPlacement="bottom" color="success" variant="ghost" size="sm" (click)="viewAct(element)" >
+          <mat-icon>add</mat-icon>
+        </button>  
+        </div>
+      </td>
+    </ng-container>
+</thead>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5 , 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
+
+</body>
+</html>

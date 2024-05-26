@@ -1,0 +1,120 @@
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+  <c-container fluid>
+    <button [cNavbarToggler]="collapseRef"></button>
+    <div #collapseRef="cCollapse" navbar cCollapse>
+      <c-navbar-nav class="me-auto mb-2 mb-lg-0">
+        <c-nav-item>
+          <a cNavLink routerLink="./dashboard">Menu</a>
+        </c-nav-item>
+        <c-nav-item>
+          <a cNavLink disabled class="d-block d-lg-none d-xl-block"></a>
+        </c-nav-item>
+      </c-navbar-nav>
+      <!-- <form cForm class="d-flex" role="search">
+        <input cFormControl type="search" (input)="applyFilter($event)" placeholder="Search" aria-label="Search"
+          class="me-2">
+        <mat-icon style="margin-top: 7px;padding-right:50px ; ">search</mat-icon>
+      </form> -->
+    </div>
+  </c-container>
+</c-navbar>
+<mat-toolbar style="background-color: #1c569f">
+  <div class="row">
+    <div class="col-3">
+      <p class="page-heading" style="color: azure;
+        font-size: 30px;margin-top: 11px;">Liste d'activités</p>
+    </div>
+    <div class="col-4">   
+      
+        <button cButton  class="custom-button" style="margin-top: 15px;" color="light"  (click)="addAct()" > <mat-icon style="height: 18px">add</mat-icon> Ajouter </button>
+        </div>
+      <!-- <button style="margin-left: 120px;margin-top: 8px;" [cPopoverTrigger]="'hover'" cPopover="ajouter activité"
+        cButton color="light" variant="outline" ><mat-icon
+          style="height: 17px;">add</mat-icon></button> -->
+    
+  </div>
+</mat-toolbar>
+
+<mat-dialog-content class="mat-typography">
+
+
+  <table [cBorder]="1">
+    <thead>
+      <tr>
+        <th class="w-25" style="color: #15317E ;">Activité</th>
+        <ng-container *ngFor="let day of generateDays(1, data.month); let dayIndex = index">
+          <th>{{day}}</th>
+        </ng-container>
+        <th style="margin-left: 100px;color: #15317E ;">Total</th>    
+        <th style="color: #15317E ;">Actions</th> 
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let  outerElement of dataSource.data">
+        <td>
+          <div class="data-container">
+            <span class="type">{{ getTypeLabel(outerElement.type) }}</span>
+            <ng-container *ngIf="outerElement.tache">
+              <span class="separator">::</span>
+              <span class="cell-value">{{ getCellValue(outerElement) }}</span>
+              <span class="separator">::</span>
+              <span class="tache">{{ tacheLibelleMap[outerElement.id] }}</span>
+            </ng-container>
+            <ng-container *ngIf="outerElement.offre">
+              <span class="separator">::</span>
+              <span class="offre">{{ offreLibelleMap[outerElement.id] }}</span>
+            </ng-container>
+            <ng-container *ngIf="containsProjetOffre(outerElement.type) && outerElement.comment">
+              <span class="separator">::</span>
+              <span class="comment">
+                <strong>Commentaire</strong>::{{ outerElement.comment }}
+              </span>
+            </ng-container>
+            <ng-container *ngIf="containsAutoFormationOrMission(outerElement.type)">
+              <span class="separator">::</span>
+              <span class="comment">
+                <strong>Commentaire</strong>::{{ outerElement.comment }}
+              </span>
+            </ng-container>
+          </div>
+         
+        </td>
+        
+        <ng-container
+          [formGroup]="editFormgroup">
+          <ng-container *ngIf="generatedDays">
+            <td *ngFor="let day of generatedDays">
+              <select name="number" [(ngModel)]="imputationByActivite[outerElement.id][day - 1].nbHeure" (click)="onOptionClick(imputationByActivite[outerElement.id][day - 1].id,imputationByActivite[outerElement.id][day - 1].nbHeure)"
+              [disabled]="isAdmin" [disabled]="disable" [ngModelOptions]="{standalone: true}" style="width: 40px;" class="custom-select"
+                (change)="onSelectChange( outerElement, day)">
+                <option *ngFor="let nbHeure of numbers ; let i = index" [value]="nbHeure" [id]="'option-' + i">{{ nbHeure }}</option>
+              </select>
+            </td>
+          </ng-container>
+          <td>{{outerElement.total}}</td>
+        </ng-container>
+      <ng-container>
+       <td> <button  style="margin: 10px" cButton color="danger" variant="ghost" size="sm" [cPopoverTrigger]="'hover'"   variant="ghost" cPopover="supprimer activité" cPopoverPlacement="bottom" (click)="onDelete(outerElement)">
+          <mat-icon>cancel</mat-icon>
+        </button></td>
+  </ng-container>
+      </tr>
+      <tr>
+      <th style="color: #15317E ;">Total</th>
+      <ng-container *ngFor="let day of generatedDays">
+        <td>{{ totalByDate[day-1] }}</td>
+      </ng-container>
+      </tr>
+  
+      <!-- <tr> 
+        <ng-container *ngFor="let  outerElement of dataSource.data"></ng-container>
+      <td>Total</td>
+      <td>{{outerElement.totalParDate}}</td>  
+    </tr> -->
+    </tbody>
+  </table>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button cButton mat-dialog-close color="primary" (click)="onCancel()">Cancel</button>
+</mat-dialog-actions>

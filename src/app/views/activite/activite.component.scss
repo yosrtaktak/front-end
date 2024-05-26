@@ -1,0 +1,114 @@
+table {
+    border-collapse: collapse;
+  }
+  
+  th,td{
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .day-list {
+    list-style-type: none; /* Supprimer les puces */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .day-item {
+    display: block;
+    margin-bottom: 5px; /* Espacement entre les jours */
+  }
+  .custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 60px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    color: #495057;
+    text-align: center;
+  }
+  .arrow-icon {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 12px;
+  }
+  
+  /* Styles spécifiques à la flèche personnalisée */
+  .arrow-icon:before {
+    content: "\25BC"; /* Code Unicode de la flèche vers le bas */
+    color: #999; 
+  }
+  .custom-select option {
+    padding: 5px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #495057;
+  }
+  .data-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .tache{
+    color: #E67E22 ;
+  }
+  .type,
+  .cell-value,
+  .tache,
+  .offre,
+  .separator,
+  .comment {
+    margin-right: 5px; /* Ajoute une marge entre les éléments */
+  }
+  
+  .type {
+    color: #1c569f;
+    font-weight: bold; /* Met en gras le type */
+  }
+  
+  .separator {
+    color: gray; /* Couleur grise pour les séparateurs */
+  }
+  .comment {
+    word-wrap: break-word;
+  }
+  .data-container {
+    display: flex; /* Utiliser un affichage flex pour permettre aux éléments de s'étendre sur toute la largeur */
+    align-items: center; /* Centrer verticalement les éléments */
+    width: 100%; /* Étendre la largeur de la cellule */
+  }
+  strong {
+    color: #1c569f;
+    font-weight: bold; /* Mettre le texte en gras */
+  }
+  .custom-button {
+    margin-left: 1000px;
+    color: white; /* Texte en blanc pour contraster avec la couleur de fond */
+    background-color: #1c569f; /* Couleur de fond correspondant à votre barre de navigation */
+    border: none; /* Supprimez la bordure */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px 20px; /* Marges intérieures */
+    cursor: pointer; /* Curseur pointer */
+    transition: background-color 0.3s ease; /* Transition fluide */
+  }
+  
+  .custom-button:hover {
+    background-color: #154576; /* Couleur de fond légèrement plus foncée au survol */
+  }
+  
+  @media screen and (max-width: 767px) {
+    .custom-button {
+      margin-left: 180px; /* Ajustez la marge gauche selon vos besoins */
+    }
+    .example-container {
+          overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+          max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+          display: block; /* Permet au conteneur de définir sa propre largeur */
+        }
+  }
+

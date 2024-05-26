@@ -1,0 +1,37 @@
+<h6 mat-dialog-title class="dialog-title">{{data.value}} offre</h6>
+<br>
+<div mat-dialog-content class="custom-dialog-content">
+    <form [formGroup]="offreFormgroup" (ngSubmit)="onSubmit()" >
+        <mat-form-field appearance="outline"  class="custom-form-field">
+            <mat-label >Code offre</mat-label>
+            <input matInput aria-label="code" placeholder="code" formControlName="code" required />
+           <br>
+            <mat-error *ngIf="offreFormgroup.get('code')?.invalid && (offreFormgroup.get('code')?.dirty || offreFormgroup.get('code')?.touched)">
+                required</mat-error>
+        </mat-form-field>
+
+        <br>
+        <mat-form-field appearance="outline"  class="custom-form-field">
+            <mat-label>Libelle offre</mat-label>
+            <input matInput aria-label="libelel" placeholder="libelle" formControlName="libelle" required />
+            <mat-error *ngIf="offreFormgroup.get('libelle')?.invalid && (offreFormgroup.get('libelle')?.dirty || offreFormgroup.get('libelle')?.touched)">
+                required </mat-error>
+        </mat-form-field>
+        <!-- <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field> -->
+       <!--<mat-form-field appearance="outline">
+            <mat-label>Date creation</mat-label>
+            <input matInput aria-label="creationDate" placeholder="creationDate" formControlName="creationDate"  />
+           
+        </mat-form-field>-->
+    </form>
+</div>
+<div mat-dialog-actions align="end" class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button cButton color="secondary"  mat-button (click)="onCancel()"  class="me-md-2">Annuler</button>
+    <button cButton mat-button color="primary" color="primary" [disabled]="offreFormgroup.invalid" [mat-dialog-close]="this.offreFormgroup" class="custom-button" >{{data.value}}</button>
+</div>

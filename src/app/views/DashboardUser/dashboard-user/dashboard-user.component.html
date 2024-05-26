@@ -1,0 +1,154 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+ 
+  <style>
+          @media screen and (max-width: 767px) {
+            .table-container {
+                overflow-x: auto;
+                width: 100%;
+                margin-left: 0;
+            }
+            .example-container {
+        overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+        display: block; /* Permet au conteneur de définir sa propre largeur */
+      }
+            .year-select {
+                width: 100%; 
+                z-index: 9999; 
+                position: relative; 
+            }
+            .row {
+                flex-direction: column;
+            }
+            .mat-header-cell,
+            .mat-cell {
+                padding: 4px; 
+                font-size: 10px; 
+                max-width: 50px; 
+                white-space: nowrap; 
+                overflow: hidden; 
+                text-overflow: ellipsis; 
+            }
+            .chart-container {
+                margin-left:600px; /* Ajustez la marge entre le tableau et le graphique */
+            }
+            .chart-container1 {
+              width: 780px;
+               margin-left: 4px; /* Ajustez la marge entre le tableau et le graphique */
+           }
+                   .chart-container,
+        .chart-container1 {
+            margin-top: 20px; /* Ajoutez une marge entre les tableaux et les graphiques */
+        }
+        .col-6:first-child {
+    flex: 0 0 100%; /* Forcer la première colonne à occuper toute la largeur */
+    max-width: 100%; /* Fixer la largeur maximale à 100% */
+  }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mat-select {
+            width: calc(100% - 20px);
+            position: absolute;
+            left: 10px; /* Ajustez la position horizontale de la liste déroulante */
+            top: calc(100% + 5px); /* Ajustez la position verticale de la liste déroulante */
+        }
+    
+        }
+
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="example-container">
+<c-navbar colorScheme="light" expand="lg" class="bg-light" style="height: 50px">
+  <c-container fluid>
+    <button [cNavbarToggler]="collapseRef"></button>
+    <div #collapseRef="cCollapse" navbar cCollapse>
+      <c-navbar-nav class="me-auto mb-2 mb-lg-0">
+        <c-nav-item>
+          <a cNavLink routerLink="./dashboard">Menu</a>
+        </c-nav-item>
+        <c-nav-item>
+          <a cNavLink disabled class="d-block d-lg-none d-xl-block"></a>
+        </c-nav-item>
+      </c-navbar-nav>
+    </div>
+  </c-container>
+</c-navbar>
+<br>
+<c-callout color="info" style="font-size: 24px">
+  Pourcentage de travail effectué sur chaque projet annuellement :
+</c-callout>
+<div class="row example-container" >
+  <div class="col-6">
+    <ng-container *ngIf="projets && projets.length > 0">
+
+      <div class="chart-container1" >
+        <c-chart [data]="data2" type="doughnut" width="550" height="550" #chart></c-chart>
+      </div>
+
+    </ng-container>
+  </div>
+
+  <div class="col-6">
+    <ng-container *ngIf="projets && projets.length > 0">
+      <div style="display: flex; justify-content: center; align-items: center;">
+
+        <div class="chart-container">
+          <c-chart [data]="data3" type="bar" width="750" height="550" #chart></c-chart>
+        </div>
+
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="col-6">
+
+    <div class="table-container" style="width:750px;margin-left: 1px;">
+      <div>
+        <div class="search-container" class="search-container d-flex justify-content-between align-items-center">
+          <mat-form-field appearance="outline" style="width: 200px;margin-left: 500px;">
+            <mat-label>Année</mat-label>
+            <mat-select aria-label="année" placeholder="année" [formControl]="yearControl"
+              (selectionChange)="applyFilter1($event)">
+              <mat-option *ngFor="let year of yearList" [value]="year.value">
+                {{year.viewValue}}</mat-option>
+              <!-- <input matInput aria-label="année" placeholder="année" formControlName="year" required /> -->
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="Code">
+          <th mat-header-cell *matHeaderCellDef> Code projet </th>
+          <td mat-cell *matCellDef="let element">{{ element.code }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Libelle">
+          <th mat-header-cell *matHeaderCellDef> Libellé projet </th>
+          <td mat-cell *matCellDef="let element"> {{ element.libelle }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5 , 10, 20]" showFirstLastButtons
+        aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+</body>
+</html>

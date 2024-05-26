@@ -1,0 +1,54 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+ 
+  <style>
+          @media screen and (max-width: 767px) {
+  
+  
+  button{
+    margin-left: -34px;
+  }
+    }
+  </style>
+</head>
+<body >
+<h6 mat-dialog-title class="dialog-title">{{data.value}} user</h6>
+<br>
+<div mat-dialog-content class="custom-dialog-content">
+    <form [formGroup]="userFormgroup" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Username</mat-label>
+            <input matInput aria-label="Username" placeholder="Username" formControlName="username" required />
+            <mat-error *ngIf="userFormgroup.hasError('required')">
+                required
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Email</mat-label>
+            <input matInput aria-label="email" placeholder="Email" formControlName="email" required />
+            <mat-error *ngIf="userFormgroup.hasError('required')">
+                required
+            </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field class="custom-form-field">
+            <mat-label>Roles</mat-label>
+            <mat-select formControlName="role" multiple (selectionChange)="change($event)" >
+              <mat-option *ngFor="let role of rolesList" [value]="role">{{ role }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="userFormgroup.hasError('required')">
+               required
+            </mat-error>
+          </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions align="end" class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button cButton color="secondary"  mat-button (click)="onCancel()" class="me-md-2">Annuler</button>
+    <button cButton mat-button color="primary" color="primary" [mat-dialog-close]="this.userFormgroup" [disabled]="!userFormgroup.valid"  class="custom-button">{{data.value}}</button>
+</div>
+</body>
+</html>

@@ -2,7 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import { DashboardChartsData, IChartProps } from './dashboard-charts-data';
-
+import { DefaultHeaderComponent } from 'src/app/containers';
+import {
+  CarouselCaptionComponent,
+  CarouselComponent,
+  CarouselControlComponent,
+  CarouselIndicatorsComponent,
+  CarouselInnerComponent,
+  CarouselItemComponent,
+} from '@coreui/angular';
 interface IUser {
   name: string;
   state: string;
@@ -24,7 +32,7 @@ interface IUser {
 export class DashboardComponent implements OnInit {
   constructor(private chartsData: DashboardChartsData) {
   }
-
+  slides: any[] = new Array(3).fill({ id: -1, src: '', title: '', subtitle: '' });
   public users: IUser[] = [
     {
       name: 'Yiorgos Avraamu',
@@ -112,9 +120,30 @@ export class DashboardComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.initCharts();
+   
+      this.slides[0] = {
+        id: 0,
+        src: './assets/images/timesheets.webp',
+        title: 'You imagine',
+        subtitle: ' We deliver'
+      };
+      this.slides[1] = {
+        id: 1,
+        src: './assets/images/1b0a6088-756f-4285-808d-e6e96b614ed4_quoti-20221121-social.jpg',
+        title: 'You imagine Business',
+        subtitle: 'We deliver solutions '
+      };
+      this.slides[2] = {
+        id: 2,
+        src: './assets/images/1.jpg',
+        title: 'IT Serv',
+        subtitle: 'Company'
+      };
+      this.initCharts();
   }
-
+  onItemChange($event: any): void {
+    console.log('Carousel onItemChange', $event);
+  }
   initCharts(): void {
     this.mainChart = this.chartsData.mainChart;
   }
@@ -124,4 +153,5 @@ export class DashboardComponent implements OnInit {
     this.chartsData.initMainChart(value);
     this.initCharts();
   }
+  
 }

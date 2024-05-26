@@ -1,0 +1,26 @@
+<h6 mat-dialog-title class="dialog-title">{{data}} projet</h6>
+<br>
+<div mat-dialog-content class="custom-dialog-content">
+    <form [formGroup]="projectFormgroup" (ngSubmit)="onSubmit()" >
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label >Code projet</mat-label>
+            <input matInput aria-label="code" placeholder="code" formControlName="code" required />
+           <br>
+            <mat-error *ngIf="projectFormgroup.get('code')?.invalid && (projectFormgroup.get('code')?.dirty || projectFormgroup.get('code')?.touched)">
+                required</mat-error>
+        </mat-form-field>
+
+        <br>
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Libelle projet</mat-label>
+            <input matInput aria-label="libelel" placeholder="libelle" formControlName="libelle" required />
+            <mat-error *ngIf="projectFormgroup.get('libelle')?.invalid && (projectFormgroup.get('libelle')?.dirty || projectFormgroup.get('libelle')?.touched)">
+                required </mat-error>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions align="end" class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button cButton color="secondary" mat-button (click)="onCancel()" >Annuler</button>
+    <span class="spacer"></span>
+    <button cButton mat-button color="primary"  [disabled]="projectFormgroup.invalid" [mat-dialog-close]="this.projectFormgroup" class="custom-button" >{{data}}</button>
+</div>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+  <style>
+    /* Ajoute une barre de défilement uniquement pour l'affichage mobile */
+    @media (max-width: 767px) {
+      body {
+        
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+     
+      }
+    }
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333; 
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<h6 mat-dialog-title class="dialog-title">{{data.value}} Rapport</h6>
+<br>
+<div mat-dialog-content>
+    <form [formGroup]="editFormgroup" (ngSubmit)="onSubmit()">
+         <mat-form-field appearance="outline">
+            <mat-label >Code rapport</mat-label>
+            <input matInput aria-label="code" placeholder="code" formControlName="code" required />
+           <br>
+            <mat-error *ngIf="editFormgroup.get('code')?.invalid && (editFormgroup.get('code')?.dirty || editFormgroup.get('code')?.touched)">
+                required</mat-error>
+        </mat-form-field> 
+        <mat-form-field appearance="outline">
+            <mat-label>Année</mat-label>
+           <mat-select aria-label="année" placeholder="année" formControlName="year" required>
+           <mat-option *ngFor="let year of yearList" [value]="year.value">
+            {{year.viewValue}}</mat-option>
+            <!-- <input matInput aria-label="année" placeholder="année" formControlName="year" required /> -->
+        </mat-select>
+        <mat-error *ngIf="editFormgroup.hasError('required')">
+            Année est requise
+        </mat-error>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+            <mat-label>Mois</mat-label>
+            <mat-select aria-label="mois" placeholder="mois" formControlName="month" required>
+            <mat-option *ngFor="let month of monthList" [value]="month.value">{{month.viewValue}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="editFormgroup.hasError('required')">
+            Mois est requis
+        </mat-error>
+            <!-- <input matInput aria-label="mois" placeholder="mois" formControlName="month" required /> -->
+        </mat-form-field>
+        <br>
+        <!-- <mat-form-field appearance="outline" *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+            <mat-label>Utilisateur</mat-label>
+           <mat-select aria-label="user" placeholder="Utilisateur" formControlName="user" required>
+            <mat-option [value]="null">Aucun Utilisateur sélectionné</mat-option>
+            <mat-option *ngFor="let user of users" [value]="user.id">{{user.username}}</mat-option>
+             <input matInput aria-label="année" placeholder="année" formControlName="year" required /> 
+        </mat-select>
+        </mat-form-field> -->
+        <br>
+        <mat-form-field class="example-full-width" *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+            <mat-label>Commentaire</mat-label>
+            <textarea matInput formControlName="comment" placeholder="commentaire..."></textarea>
+          </mat-form-field>
+          <br>
+        
+        <!-- <mat-form-field>
+            <mat-label>Etat</mat-label>
+            <mat-select formControlName="etat" (selectionChange)="change($event)" >
+              <mat-option *ngFor="let etat of etatList" [value]="etat">{{etat}}</mat-option>
+            </mat-select>
+          </mat-form-field> -->
+    </form>
+</div>
+<div mat-dialog-actions align="end" class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button cButton color="secondary"  mat-button (click)="onCancel()" class="me-md-2">Annuler</button>
+    <button cButton mat-button color="primary" color="primary" [mat-dialog-close]="this.editFormgroup" [disabled]="!editFormgroup.valid" class="custom-button">{{data.value}}</button>
+</div>
+
+</body>
+</html>

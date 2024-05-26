@@ -1,4 +1,156 @@
-<app-widgets-dropdown></app-widgets-dropdown>
+<router-outlet ></router-outlet>
+<!--  -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+  <style>
+     @media (max-width: 1000px) {
+      body, html {
+        overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+        display: block; 
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ebedef; /* Changez la couleur d'arrière-plan selon vos préférences */
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center; /* Centrer verticalement les cartes */
+      }
+      .card:first-child {
+        margin-top: 50px; /* Ajustez cette valeur selon vos besoins */
+      }
+  
+      .card {
+        margin: 10px;
+        width: calc(50% - 20px);
+        max-width: 350px; /* Largeur maximale des cartes pour l'affichage mobile */
+      }
+
+      .card img {
+        width: 100%;
+        height: auto;
+      }
+      .last-cards {
+        margin-right: 85px;
+      }
+      .example-container {
+        overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+        display: block; /* Permet au conteneur de définir sa propre largeur */
+      }
+    }
+ 
+    @media (max-width: 767px) {
+      .card {
+        min-width: 20px; /* Définissez la largeur minimale des cartes pour l'affichage mobile */
+
+      }
+      
+    }
+
+
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333; 
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class=" container d-flex justify-content-center">
+  
+  <div class="row ">
+
+    <div class="rounded overflow-hidden shadow-lg flex flex-col card" style="width: 350px;height: 300px;">
+      <div class="relative">
+        <a routerLink="/activité">
+          <img class="w-full" style="width: 300px; height: auto;" src="./assets/images/timesheet-approval.png" alt="Sunset in the mountains">
+          <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
+        </a>
+      </div>
+      
+      <div class="px-6 py-4 mb-auto">
+        <a href="#" class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2"></a>
+        <div class="text-center">
+          <p class="text-gray-500 text-sm font-bold mb-4" style="font-weight: bold;color: #1c569f">Liste des rapports</p>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="rounded overflow-hidden shadow-lg flex flex-col card last-cards" style="width: 350px;height: 300px;margin-left: 80px;">
+      <div class="relative">
+        <a routerLink="/dashboardUserMensuelle">
+          <img class="w-full" style="width: 224px; height: auto;margin-left: 60px;" src="./assets/images/graph.png" alt="Sunset in the mountains">
+          <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
+        </a>
+      </div>
+      <div class="px-6 py-4 mb-auto">
+        <a href="#" class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2"></a>
+        <div class="text-center">
+          <p class="text-gray-500 text-sm" style="font-weight: bold;color: #1c569f">Tableau de bord mensuel</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rounded overflow-hidden shadow-lg flex flex-col card last-cards" style="width: 350px;height: 300px;margin-left: 80px;">
+      <div class="relative">
+        <a routerLink="/dashboardUser">
+          <img class="w-full"  style="width: 226px; height: auto;margin-left:62px;" src="./assets/images/610128.png" alt="Sunset in the mountains">
+          <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"></div>
+        </a>
+      </div>
+      <div class="px-6 py-4 mb-auto">
+        <a href="#" class="font-medium text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out inline-block mb-2"></a>
+        <div class="text-center">
+          <p class="text-gray-500 text-sm" style="font-weight: bold;color: #1c569f">Tableau de bord annuel</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <app-rapport-activite></app-rapport-activite> -->
+
+
+
+<!--<app-widgets-dropdown></app-widgets-dropdown>
+
 <c-card class="mb-4">
   <c-card-body>
     <c-row>
@@ -444,4 +596,4 @@
       </c-card-body>
     </c-card>
   </c-col>
-</c-row>
+</c-row>-->
