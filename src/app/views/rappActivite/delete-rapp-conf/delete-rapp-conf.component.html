@@ -1,0 +1,10 @@
+<h6 mat-dialog-title>{{data.value}} rapport</h6>
+<mat-dialog-content>
+  <p>{{data.message}}?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <div mat-dialog-actions align="end" class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button cButton color="secondary"  class="me-md-2" (click)="dialogRef.close(false)">Annuler</button>
+    <button cButton color="primary" (click)="dialogRef.close(true)">{{data.value}}</button>
+</div>
+</mat-dialog-actions>  

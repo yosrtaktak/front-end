@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+  <style>
+    /* Ajoute une barre de défilement uniquement pour l'affichage mobile */
+    @media (max-width: 767px) {
+      body {
+    
+          max-width:120%
+      }
+      .example-container {
+        overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+        display: block; /* Permet au conteneur de définir sa propre largeur */
+      }
+    }
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333; 
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class=" example-containermat-elevation-z8"tabindex="0">
+ 
+    <table mat-table #tableElement  hover  cTable hover [dataSource]="dataSource" >
+      <thead>
+      <ng-container matColumnDef="Date creation">
+        <th mat-header-cell *matHeaderCellDef class="custom-column"> Date creation</th>
+        <td mat-cell *matCellDef="let element"> {{element.creationDate}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Etat">
+        <th mat-header-cell *matHeaderCellDef class="custom-column"> Etat rapport</th>
+        <td mat-cell *matCellDef="let element"> {{getStatusLabel(element.etat)}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Commentaire">
+        <th mat-header-cell *matHeaderCellDef class="custom-column"> Commentaire</th>
+        <td mat-cell *matCellDef="let element"> {{element.comment}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Utilisateur">
+        <th mat-header-cell *matHeaderCellDef class="custom-column"> Utilisateur</th>
+        <td mat-cell *matCellDef="let element"> {{element.user.username}} </td>
+      </ng-container>
+  </thead>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div mat-dialog-actions align="end">
+        <button cButton color="secondary"   mat-button (click)="onCancel()" class="me-md-2" >Annuler</button>
+    </div>
+    
+
+  </div>
+  <mat-paginator [pageSizeOptions]="[5 , 10, 20]"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </body>
+  </html>

@@ -2,6 +2,68 @@ import { INavData } from '@coreui/angular';
 
 export const navItems: INavData[] = [
   {
+    name :'Planning',
+    url :'/Planning',
+    iconComponent: { name: 'cil-calendar' },
+    children: [
+      {
+        name :'Dashboard administration',
+       
+        children: [
+          {
+            name :'Dashboard Annuel',
+            url :'/dashboardAdmin',
+          },
+          {
+            name :'Dashboard Mensuel',
+            url :'/dashboardAdminMensuel',
+          },
+      ]},
+      {
+        name :'Dashboard utilisateur',
+       
+        children: [
+          {
+            name: 'Dashboard Annuel',
+            url: 'dashboardUser'
+          },
+          {
+            name :'Dashboard Mensuel',
+            url :'/dashboardUserMensuelle',
+          },
+      ]},
+      {
+        name :'Liste des projets',
+        url :'/project',
+      },
+      {
+        name :'Liste des offres',
+        url :'/offre',
+      },
+      {
+        name :'Liste des utilisateurs',
+        url :'/user',
+      },
+      {
+        name :'Liste des rapports',
+        url :'/activité',
+      },
+      // {
+      //   name :'liste des taches',
+      //   url :'/task',
+      // },
+      // {
+      //   name :'Task Detail',
+      //   url :'/DetailTask',
+      // },
+      // {
+      //   name :'Scheduler',
+      //   url :'/DetailTask',
+      // },
+
+    ]
+  },
+ /* {
     name: 'Dashboard',
     url: '/dashboard',
     iconComponent: { name: 'cil-speedometer' },
@@ -34,7 +96,7 @@ export const navItems: INavData[] = [
     url: '/base',
     iconComponent: { name: 'cil-puzzle' },
     children: [
-      {
+      /*{
         name: 'Accordion',
         url: '/base/accordion'
       },
@@ -258,5 +320,5 @@ export const navItems: INavData[] = [
     url: 'https://coreui.io/product/angular-dashboard-template/',
     iconComponent: { name: 'cil-layers' },
     attributes: { target: '_blank' }
-  }
+  }*/
 ];

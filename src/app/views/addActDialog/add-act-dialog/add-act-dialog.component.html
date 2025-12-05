@@ -1,0 +1,66 @@
+<h6 mat-dialog-title class="custom-dialog-title">{{data.value}} activité</h6>
+<div class="field-spacing"></div>
+<div mat-dialog-content class="custom-dialog-content">
+    <form [formGroup]="editFormgroup">
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Type activité</mat-label>
+            <mat-select  formControlName="type" (selectionChange)="updateType($event.value)" placeholder="Type activité" required>
+                <mat-option [value]="null">Aucun type sélectionné</mat-option>
+                <mat-option *ngFor="let type of types" [value]="type">{{getTypeLabel(type)}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="editFormgroup.get('type')?.hasError('required')">Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+        <br>
+        <div class="field-spacing"></div>
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Projet</mat-label>
+            <mat-select  formControlName="projet"  [disabled]="typeControlValue !== 'projet'" required>
+                <mat-option [value]="null">Aucun projet sélectionné</mat-option>
+              <mat-option *ngFor="let projet of projets" [value]="projet.idProjet">{{ projet.libelle }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="editFormgroup.get('projet')?.hasError('required')">Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+        <br>
+        <div class="field-spacing"></div>
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>offre</mat-label>
+            <mat-select aria-label="offre" placeholder="offre" formControlName="offre" [disabled]="typeControlValue !== 'offre'"  >
+                <mat-option [value]="null">Aucun offre sélectionné</mat-option>
+                <mat-option *ngFor="let offre of offres" [value]="offre.id">{{ offre.libelle }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="editFormgroup.get('offre')?.hasError('required')">Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+        <br>
+        <div class="field-spacing"></div>
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Lot</mat-label>
+            <mat-select aria-label="lot" placeholder="lot" formControlName="lot"  [disabled]="typeControlValue !== 'projet'" required>
+            <mat-option [value]="null">Aucun lot sélectionné</mat-option>
+            <mat-option *ngFor="let lot of lots" [value]="lot.id">{{lot.libelle}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="editFormgroup.get('lot')?.hasError('required')">Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+        <br>
+        <div class="field-spacing"></div>
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Tache</mat-label>
+            <mat-select aria-label="tache" placeholder="tache" formControlName="tache"  [disabled]="typeControlValue !== 'projet'" required>
+                <mat-option [value]="null">Aucune tache sélectionnée</mat-option>
+                <mat-option *ngFor="let tache of taches" [value]="tache.id">{{tache.libelle}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="editFormgroup.get('tache')?.hasError('required')">Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+        <br>
+        <div class="field-spacing"></div>
+        <mat-form-field appearance="outline" class="custom-form-field">
+            <mat-label>Détail</mat-label>
+            <textarea matInput aria-label="commentaire" placeholder="commentaire" formControlName="comment" ></textarea>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions align="end" class="d-grid gap-2 d-md-flex justify-content-md-end" class="custom-dialog-actions">
+    <button cButton color="secondary"   mat-button (click)="onCancel()" class="me-md-2" class="custom-button">Annuler</button>
+    <span class="spacer"></span>
+    <button cButton mat-button color="primary" color="primary" [mat-dialog-close]="this.editFormgroup" [disabled]="!editFormgroup.valid" class="custom-button">{{data.value}}</button>
+</div>
+ 

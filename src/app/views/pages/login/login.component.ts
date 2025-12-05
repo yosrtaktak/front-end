@@ -4,7 +4,10 @@ import { LoginService } from './../../../service/login.service';
 import { Component, ElementRef, HostListener, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
-
+import {ErrorStateMatcher} from '@angular/material/core';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,29 +19,41 @@ export class LoginComponent implements OnInit{
   usernameControl: FormControl;
   passwordControl: FormControl;
   submitted = false;
-
+  username: string;
+  password : string;
+  errorMessage = 'username or password invalid';
+  successMessage: string;
+  invalidLogin = false;
+  loginSuccess = false;
+  formErrors: any;
+  formControls!: string[];
+  userRole : string[];
+  passwordVisible: boolean = false;
   constructor(
     private ValidationService : ValidationService,
     private fb: FormBuilder,
-    private loginService: LoginService,
+    public loginService: LoginService,
     private router: Router,
-    private el: ElementRef
-  ) { }
+  ) {  
+     }
 
   ngOnInit(): void {
+    this.loginService.loginComponent = this;
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.pattern(this.ValidationService.formRules.nonEmpty)]],
-      password: ['', [Validators.required, Validators.pattern(this.ValidationService.formRules.nonEmpty), Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.pattern(this.ValidationService.formRules.nonEmpty),]]
     });
-
+    
     this.usernameControl = this.loginForm.get('username') as FormControl;
     this.passwordControl = this.loginForm.get('password') as FormControl;
-    console.log("tessssstt :::::",this.usernameControl)
+ 
   }
-
+  togglePasswordVisibility() {
+    this.passwordVisible = !this.passwordVisible;
+  }
+  
   onValidate(): boolean {
     this.submitted = true;
-    // Stop here if form is invalid
     return this.loginForm.valid;
   }
 
@@ -48,52 +63,31 @@ export class LoginComponent implements OnInit{
         (response) => {
           console.log(response);
           const jwtToken = response.accessToken;
-          localStorage.setItem('jwt', jwtToken);
+          const userRole = response.roles;
+          const userId = response.id;
+          const userName = response.username;
+          this.invalidLogin = false;
+          this.loginSuccess = true;
+          this.successMessage = 'Login Successful.';
+          sessionStorage.setItem('jwt', jwtToken); 
+          sessionStorage.setItem('Role', userRole);
+          sessionStorage.setItem('Id',userId);
+          sessionStorage.setItem('username',userName)
+          this.userRole = userRole;
+          console.log("  this.userRole ",  this.userRole )
+          this.loginService.storeLoginInformation(jwtToken, userRole, userId,userName)
           this.router.navigateByUrl("/dashboard");
+        
         },
-        (error) => {
-          console.error(error);
-          // Traiter l'erreur de connexion ici
-          // Par exemple, si c'est une erreur de validation, vous pouvez ajouter des erreurs au formulaire
-          const errorCode = error.error.code; // Assurez-vous de capturer le code d'erreur correctement depuis la réponse du serveur
-          if (errorCode === 'validation_error') {
-            const errors = error.error.errors; // Supposons que le serveur renvoie les erreurs sous forme d'objet avec les clés correspondant aux champs du formulaire
-            for (const key in errors) {
-              if (errors.hasOwnProperty(key)) {
-                // Utilisez l'opérateur de navigation sécurisé pour éviter l'erreur "Object is possibly 'null'"
-                this.loginForm.get(key)?.setErrors({ 'serverError': errors[key] });
-              }
-            }
-          } else {
-            // Le formulaire est invalide, affichez un message d'erreur générique
-            alert('Veuillez remplir le formulaire correctement.');
-          }
+        () => {
+          this.invalidLogin = true;
+          this.loginSuccess = false;
         }
       );
     }
   }
-
-  getErrorMessage(fieldName: string): string {
-    if (fieldName === 'username') {
-      const usernameErrors = this.loginForm.get('username')?.errors;
-      if (usernameErrors?.['required']) {
-        return this.ValidationService.errorMessages.username.required;
-      } else if (usernameErrors?.['minlength']) {
-        return this.ValidationService.errorMessages.username.minLength;
-      } else if (usernameErrors?.['pattern']) {
-        return this.ValidationService.errorMessages.username.pattern;
-      }
-    } else if (fieldName === 'password') {
-      const passwordErrors = this.loginForm.get('password')?.errors;
-      if (passwordErrors?.['required']) {
-        return this.ValidationService.errorMessages.password.required;
-      } else if (passwordErrors?.['minLength']) {
-        return this.ValidationService.errorMessages.password.minLength;
-      } else if (passwordErrors?.['pattern']) {
-        return this.ValidationService.errorMessages.password.pattern;
-      }
-    }
-    return '';
   }
-}
+  
+
+
 

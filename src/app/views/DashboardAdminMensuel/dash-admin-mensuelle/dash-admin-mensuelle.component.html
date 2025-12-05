@@ -1,0 +1,230 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+ 
+  <style>
+          @media screen and (max-width: 767px) {
+            .table-container {
+                overflow-x: auto;
+                width: 100%;
+                margin-left: 0;
+            }
+            .example-container {
+        overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+        display: block; /* Permet au conteneur de définir sa propre largeur */
+      }
+            .year-select {
+                width: 100%; 
+                z-index: 9999; 
+                position: relative; 
+            }
+            .row {
+                flex-direction: column;
+            }
+            .mat-header-cell,
+            .mat-cell {
+                padding: 4px; 
+                font-size: 10px; 
+                max-width: 50px; 
+                white-space: nowrap; 
+                overflow: hidden; 
+                text-overflow: ellipsis; 
+            }
+            .chart-container {
+               
+                margin-left: 560px; /* Ajustez la marge entre le tableau et le graphique */
+            }
+            .chart-container1 {
+               margin-left: 4px; /* Ajustez la marge entre le tableau et le graphique */
+           }
+        .chart-container,
+        .chart-container1 {
+        
+            margin-top: 20px; /* Ajoutez une marge entre les tableaux et les graphiques */
+        }
+        }
+
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="example-container" >
+
+<c-navbar colorScheme="light" expand="lg" class="bg-light" style="height: 50px">
+    <c-container fluid>
+      <button [cNavbarToggler]="collapseRef"></button>
+      <div #collapseRef="cCollapse" navbar cCollapse>
+        <c-navbar-nav class="me-auto mb-2 mb-lg-0">
+          <c-nav-item>
+            <a cNavLink routerLink="./dashboard">Menu</a>
+          </c-nav-item>
+          <c-nav-item>
+            <a cNavLink disabled class="d-block d-lg-none d-xl-block"></a>
+          </c-nav-item>
+        </c-navbar-nav>
+      </div>
+    </c-container>
+</c-navbar>
+<c-callout color="info" style="font-size: 24px">
+  Pourcentage de travail mensuel :
+</c-callout>
+<div *ngIf="this.selectedProject" >
+  <c-alert color="info">Projet sélectionné : {{ this.selectedProject.code }} : {{this.selectedProject.libelle}}</c-alert>
+</div>
+  <div class="row example-container">
+    <div class="col-6 ">
+        <div class="table-container"  style="width:750px;margin-left: 1px;">
+            <div class="search-container d-flex justify-content-between align-items-center">
+                <mat-form-field appearance="outline" style="width: 200px;margin-left: 270px;">
+                    <mat-label>Mois</mat-label>
+                    <mat-select aria-label="mois" placeholder="mois" [formControl]="monthControl" (selectionChange)="applyFilter($event)">
+                      <mat-option *ngFor="let month of monthList" [value]="month.value">{{month.viewValue}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <mat-form-field appearance="outline" style="width: 200px;">
+                <mat-label>Année</mat-label>
+                <mat-select aria-label="année" placeholder="année" [formControl]="yearControl" (selectionChange)="applyFilter($event)">
+                  <mat-option *ngFor="let year of yearList" [value]="year.value">{{year.viewValue}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              
+            </div>
+         
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="Code">
+              <th mat-header-cell *matHeaderCellDef> Code projet </th>
+              <td mat-cell *matCellDef="let element" (click)="handleClickOnProjet(element)" (click)="visible =! visible"><button cButton color="link"> {{ element.code }}</button> </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="Libelle">
+              <th mat-header-cell *matHeaderCellDef> Libelle projet </th>
+              <td mat-cell *matCellDef="let element"> {{ element.libelle }} </td>
+            </ng-container>
+            <ng-container matColumnDef="Nombre utilisateur">
+              <th mat-header-cell *matHeaderCellDef> Nombre utilisateur </th>
+              <td mat-cell *matCellDef="let element"> {{ nombreUtilisateursParProjet[element.idProjet]?.Total || 0 }} </td>
+            </ng-container>
+            <ng-container matColumnDef="Temps total">
+              <th mat-header-cell *matHeaderCellDef> Temps total </th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.totalTemps && element.totalTemps.length > 0">
+                  {{ element.totalTemps[0].totalTravail }}
+                </ng-container>
+                <ng-container *ngIf="!element.totalTemps || element.totalTemps.length === 0">
+                  0
+                </ng-container>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Pourcentage">
+              <th mat-header-cell *matHeaderCellDef> Pourcentage %</th>
+              <td mat-cell *matCellDef="let element">
+                <ng-container *ngIf="element.pourcentageProjet">
+                  {{ element.pourcentageProjet[element.idProjet] }}
+                </ng-container>
+                <ng-container *ngIf="!element.pourcentageProjet">
+                  0
+                </ng-container>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5 , 10, 20]"
+            showFirstLastButtons
+            aria-label="Select page of periodic elements">
+          </mat-paginator>
+        </div>
+          </div>
+        <div class="col-6 " style="display: flex; justify-content: center; align-items: center;">
+          <div class="chart-container" *ngIf="chartVisible" >
+            <c-chart [data]="data3" type="bar" width="700" height="450" #chart></c-chart>
+          </div>
+        </div>
+        </div>
+      <div>
+        <div *ngIf="this.selecttache" >
+          <c-alert color="info">Tache sélectionné : {{ this.selecttache.code }} : {{this.selecttache.libelle}}</c-alert>
+        </div>
+        <div class="row example-container">
+          <div class="col-6 ">
+        <div class="table-container" style="width:750px;margin-left: 1px;">
+          <table mat-table [dataSource]="tache" class="mat-elevation-z8">
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef> Code tache</th>
+              <td mat-cell *matCellDef="let tache"  (click)="selectTache(tache)"> <button cButton color="link">{{ tache.code }}</button> </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="libelle">
+              <th mat-header-cell *matHeaderCellDef> Libellé tache </th>
+              <td mat-cell *matCellDef="let tache"> {{ tache.libelle }} </td>
+            </ng-container>
+            <ng-container matColumnDef="Utilisateur">
+              <th mat-header-cell *matHeaderCellDef> Utilisateur </th>
+              <td mat-cell *matCellDef="let tache">
+                <ng-container *ngFor="let utilisateur of tache.utilisateurs; let last = last">
+                  <div style="margin-bottom: 5px;">
+                    {{ utilisateur.username }}
+                  </div>
+                  <!-- Ajoute une ligne de séparation sauf pour le dernier utilisateur -->
+                  <hr *ngIf="!last" style="margin: 5px 0;">
+                </ng-container>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Temps">
+              <th mat-header-cell *matHeaderCellDef> Temps utilisateur </th>
+              <td mat-cell *matCellDef="let tache">
+                <ng-container *ngFor="let total of tache.totalTravail; let last = last">
+                  <div style="margin-bottom: 5px;">
+                    {{ total.totalTravail}}
+                  </div>
+                  <!-- Ajoute une ligne de séparation sauf pour le dernier utilisateur -->
+                  <hr *ngIf="!last" style="margin: 5px 0;">
+                </ng-container>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Temps total">
+              <th mat-header-cell *matHeaderCellDef> Temps total </th>
+              <td mat-cell *matCellDef="let tache"> 
+                <ng-container *ngFor="let total of tache.totalTemps; let last = last">
+                  {{ total.Total }} 
+                </ng-container>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Pourcentage">
+                <th mat-header-cell *matHeaderCellDef> Pourcentage Total % </th>
+                <td mat-cell *matCellDef="let element"> 
+                {{this.resultats[element.id][element.id]}}
+                  </td>
+                </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['code', 'libelle','Utilisateur','Temps','Temps total','Pourcentage']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['code', 'libelle','Utilisateur','Temps','Temps total','Pourcentage'];"></tr>
+  
+          </table>
+          <mat-paginator [pageSizeOptions]="[5 , 10, 20]"
+          showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>  
+  </div>
+  </div>
+  <div class="col-6" >
+    <ng-container *ngIf="tache && tache.length > 0">
+    <div class="chart-container1" *ngIf="chartVisible" style="width: 745px; height: 550px;">
+      <!-- <div *ngIf="this.selectedTacheId" class="selected-tache">
+        <p><span class="code">{{ this.selecttache.code }}</span>: {{ this.selecttache.libelle }}</p>
+      </div> -->
+      <c-chart [data]="dataPieChart" type="doughnut" width="470" height="500" #chart />
+    </div>
+  </ng-container>
+  </div>
+  
+  </div>    
+  </div>
+  </body>
+  </html>

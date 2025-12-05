@@ -1,0 +1,126 @@
+.table-container {
+    float: left; /* Pour aligner à droite */
+    margin-left: 20px; /* Pour ajouter un peu d'espace à gauche */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  
+  .centered-chart {
+    width: 40%; /* Définir la largeur du graphique */
+    margin-left: auto; /* Centrer horizontalement */
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+  
+  .search-field {
+    width: 200px;
+    border-radius: 20px;
+    background-color: #f2f2f2;
+  }
+  
+  .mat-input-element {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .mat-icon-button {
+    color: #666;
+  }
+  
+  .mat-icon-button:hover {
+    color: #333;
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .mat-input-element {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #333;
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-icon {
+    margin-right: 5px;
+  }
+  
+  .search-input {
+    border: none; /* Supprimer la bordure de l'input */
+    outline: none; /* Supprimer la mise en évidence du focus */
+    padding: 5px; /* Espacement à l'intérieur de la barre de recherche */
+    font-size: 14px;
+  }
+  
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .chart {
+    margin-top: 20px;
+  }
+  .chart-container {
+    border: 1px solid #ccc; /* Ajoute une bordure grise */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère */
+    border-radius: 8px; /* Ajoute des coins arrondis */
+    padding: 20px; /* Ajoute un espacement intérieur pour les graphiques */
+  }
+  .chart-container1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .chart {
+    margin-top: 20px;
+  }
+  .chart-container1 {
+    border: 1px solid #ccc; /* Ajoute une bordure grise */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ajoute une ombre légère */
+    border-radius: 8px; /* Ajoute des coins arrondis */
+    padding: 20px; /* Ajoute un espacement intérieur pour les graphiques */
+  }
+  /* Style de base pour le tableau */
+.mat-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+/* Style de l'en-tête */
+.mat-header-cell {
+  background-color: #f2f2f2;
+  padding: 12px;
+  text-align: left;
+}
+
+/* Style des cellules */
+.mat-cell {
+  padding: 10px;
+}
+
+/* Style pour les lignes impaires */
+.mat-row:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Hover sur les lignes */
+.mat-row:hover {
+  background-color: #f2f2f2;
+}

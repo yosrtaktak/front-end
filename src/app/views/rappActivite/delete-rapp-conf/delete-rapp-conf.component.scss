@@ -1,0 +1,40 @@
+.dialog-title {
+    font-size: 1.5rem; /* Ajuster la taille du titre */
+    font-weight: bold; /* Rendre le titre en gras */
+    margin-bottom: 10px; /* Ajouter un espace en bas du titre */
+}
+.custom-dialog-title {
+    font-size: 24px; /* Taille de la police */
+    font-weight: bold; /* Police en gras */
+    text-align: center; /* Centrer le texte */
+    margin: 20px 0; /* Ajouter de la marge en haut et en bas */
+    padding-bottom: 10px; /* Ajouter un peu de rembourrage en bas */
+  }
+  .dialog-title {
+    font-size: 1.5rem; /* Ajuster la taille du titre */
+    font-weight: bold; /* Rendre le titre en gras */
+    margin-bottom: 10px; /* Ajouter un espace en bas du titre */
+}
+  .custom-dialog-content {
+    padding: 20px;
+  }
+  
+  .custom-form-field {
+    width: 100%;
+  }
+  
+  .custom-label {
+    color: #1c569f;
+  }
+  
+  .custom-button {
+    background-color: #1c569f;
+    color: white;
+  }
+  
+  .custom-button:hover {
+    background-color: #14538c;
+  }
+  .spacer {
+    margin-right: 3px; /* Vous pouvez ajuster la valeur de la marge selon votre besoin */
+  }

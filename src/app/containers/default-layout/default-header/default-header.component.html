@@ -1,59 +1,90 @@
 <!--<c-header class="mb-4 d-print-none" position="sticky">-->
-<ng-container>
+
+  <ng-container>
   <c-container [fluid]="true">
     <button
       toggle="visible"
       cHeaderToggler
       [cSidebarToggle]="sidebarId"
-      class="ps-1"
+     
+      class="ps-1 d-lg-none"
     >
-      <svg cIcon
+     <svg cIcon
         name="cilMenu"
         size="lg"
       ></svg>
     </button>
-    <c-header-nav class="d-none d-lg-flex me-auto">
-      <c-nav-item>
+   <c-header-nav class="d-none d-lg-flex me-auto" class="d-lg-flex flex-grow-1">
+      <!--<c-nav-item>
         <a cNavLink routerLink="/dashboard" routerLinkActive="active">
           Dashboard
         </a>
+      </c-nav-item>-->
+      <c-nav-item>
+        <!-- <a cNavLink routerLink="/dashboard" routerLinkActive="active">
+          <button cButton color="primary" variant="ghost">Home</button>
+        </a> -->
       </c-nav-item>
       <c-nav-item>
-        <a cNavLink routerLink="/users" routerLinkActive="active">Users</a>
+        <!-- <a cNavLink routerLink="/activité" routerLinkActive="active" color="primary"> <button cButton color="primary" variant="ghost">Rapports</button>
+        </a> -->
+        <!-- Vérifiez d'abord le rôle de l'utilisateur -->
+<ng-container *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+  <!-- Si l'utilisateur a le rôle d'administrateur, affichez le lien vers le composant rapportAdmin -->
+  <a cNavLink routerLink="/rapportAdmin" routerLinkActive="active" style="color: #1c569f;" class="btn btn-2" > 
+   Mes Rapports
+  </a>
+</ng-container>
+<ng-container *ngIf="!loginService.userRole || !loginService.userRole.includes('ROLE_ADMIN')">
+  <!-- Si l'utilisateur n'est pas administrateur, affichez le lien vers le composant activité -->
+  <a cNavLink routerLink="/activité" routerLinkActive="active" style="color: #1c569f;" class="btn btn-2">
+    Rapports
+  </a>
+</ng-container>
+
       </c-nav-item>
-      <c-nav-item>
+      <!--<c-nav-item>
         <a cNavLink routerLink="/settings" routerLinkActive="active">
           Settings
         </a>
-      </c-nav-item>
+      </c-nav-item>-->
     </c-header-nav>
 
     <c-header-nav class="d-none d-lg-flex">
-      <c-nav-item>
+      <!--<c-nav-item>
         <a routerLink="./" cNavLink>
           <svg cIcon name="cilBell" size="lg"></svg>
         </a>
-      </c-nav-item>
-      <c-nav-item>
+      </c-nav-item>-->
+      <!--<c-nav-item>
         <a routerLink="./" cNavLink>
           <svg cIcon name="cilList" size="lg"></svg>
         </a>
-      </c-nav-item>
-      <c-nav-item>
+      </c-nav-item>-->
+      <!--<c-nav-item>
         <a routerLink="./" cNavLink>
           <svg cIcon name="cilEnvelopeOpen" size="lg"></svg>
         </a>
-      </c-nav-item>
-    </c-header-nav>
-    <c-header-nav class="ms-3">
+      </c-nav-item>-->
+    <!-- <c-nav-item>
+        <a cNavLink routerLink="/login" routerLinkActive="active">
+          <button cButton color="info" variant="ghost">Logout</button>
+        </a>
+      </c-nav-item>-->
+      <!-- <form cForm class="d-flex" role="search">
+        <input cFormControl type="search" placeholder="Search" aria-label="Search" class="me-2">
+       
+      </form> -->
+   </c-header-nav>
+    <c-header-nav class="ms-3" >
       <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
-    </c-header-nav>
+    </c-header-nav> 
 
   </c-container>
-  <c-header-divider></c-header-divider>
-  <c-container [fluid]="true">
+   <!--<c-header-divider></c-header-divider>
+    <c-container [fluid]="true">
     <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
-  </c-container>
+  </c-container>-->
 </ng-container>
 <!--</c-header>-->
 
@@ -61,25 +92,19 @@
   <c-dropdown alignment="end" variant="nav-item">
     <button
       cButton
-      color=""
+      color="secondary" variant="ghost"
       [caret]="false"
       cDropdownToggle
       class="py-0"
+      style="color: #1c569f"
     >
-      <c-avatar
-        cTextColor="primary"
-        shape="rounded-1"
-        size="md"
-        src="./assets/img/avatars/8.jpg"
-        status="success"
-      >
-      </c-avatar>
+    <svg cIcon class="me-2" name="cilSettings"></svg>{{this.loginService.userName}}
     </button>
     <ul cDropdownMenu class="pt-0 pr-5 w-auto">
       <li>
         <h6 cDropdownHeader class="bg-light fw-semibold py-2">Account</h6>
       </li>
-      <li>
+      <!--<li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilBell"></svg>
           Updates
@@ -87,8 +112,8 @@
             42
           </c-badge>
         </a>
-      </li>
-      <li>
+      </li>-->
+      <!--<li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilEnvelopeOpen"></svg>
           Messages
@@ -96,42 +121,72 @@
             42
           </c-badge>
         </a>
+      </li>-->
+      <li>
+      <ng-container >
+        <a routerLink="./dashboardUser" cDropdownItem>
+          <svg cIcon class="me-2" name="cilChart"></svg>
+         Dashboard Annuel
+        </a>
+      </ng-container>
+      <ng-container >
+        <a routerLink="./dashboardUserMensuelle" cDropdownItem>
+          <svg cIcon class="me-2" name="cil-chart-pie"></svg>
+         Dashboard Mensuel
+        </a>
+      </ng-container>
       </li>
       <li>
-        <a routerLink="./" cDropdownItem>
-          <svg cIcon class="me-2" name="cilTask"></svg>
-          Tasks
-          <c-badge class="ms-2 float-end" color="danger">
-            42
-          </c-badge>
+        <a routerLink="./project" cDropdownItem *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+          <svg cIcon class="me-2" name="cilFile"></svg>
+          Projets
         </a>
       </li>
       <li>
+        <a routerLink="./offre" cDropdownItem *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+          <svg cIcon class="me-2" name="cil-people"></svg>
+          Offres
+        </a>
+      </li>
+      <li>
+        <a routerLink="./activité" cDropdownItem>
+          <svg cIcon class="me-2" name="cilTask"></svg>
+         Tache
+          <!-- <c-badge class="ms-2 float-end" color="danger">
+            42
+          </c-badge> -->
+        </a>
+      </li>
+      <li>
+        <a routerLink="./user" cDropdownItem *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+          <svg cIcon class="me-2" name='cil-user-follow'></svg>
+         utilisateur
+          <!-- <c-badge class="ms-auto" color="warning">
+            42
+          </c-badge> -->
+        </a>
+      </li>
+     <!--<li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name='cilCommentSquare'></svg>
-          Comments
+          
           <c-badge class="ms-auto" color="warning">
             42
           </c-badge>
         </a>
-      </li>
-      <li>
+      </li>-->
+     <!-- <li>
         <h6 cDropdownHeader class="bg-light fw-semibold py-2">Settings</h6>
       </li>
-      <li></li>
-      <li>
-        <a routerLink="./" cDropdownItem>
-          <svg cIcon class="me-2" name="cilUser"></svg>
-          Profile
-        </a>
-      </li>
-      <li>
+      <li></li>-->
+
+      <!--<li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilSettings"></svg>
           Settings
         </a>
-      </li>
-      <li>
+      </li>-->
+     <!-- <li>
         <a routerLink="./" cDropdownItem>
           <svg cIcon class="me-2" name="cilCreditCard"></svg>
           Payments
@@ -139,27 +194,20 @@
             42
           </c-badge>
         </a>
-      </li>
-      <li>
-        <a routerLink="./" cDropdownItem>
-          <svg cIcon class="me-2" name="cilFile"></svg>
-          Projects
-          <c-badge class="ms-2 float-end" color="primary">
-            42
-          </c-badge>
-        </a>
-      </li>
+      </li>-->
+      
       <li>
         <hr cDropdownDivider/>
       </li>
       <li>
-        <a routerLink="./" cDropdownItem>
+        <a routerLink="./login" cDropdownItem>
           <svg cIcon class="me-2" name="cilLockLocked"></svg>
-          Lock Account
+          <button cButton   (click)="onLogout()" >Déconnexion</button>
         </a>
       </li>
       <li></li>
     </ul>
   </c-dropdown>
+  
 </ng-template>
 

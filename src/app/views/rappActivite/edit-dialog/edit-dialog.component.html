@@ -1,0 +1,37 @@
+<h6 mat-dialog-title class="dialog-title">{{data.value}} Rapport</h6>
+<div mat-dialog-content *ngIf="loginService.userRole && loginService.userRole.includes('ROLE_ADMIN')">
+    <form [formGroup]="editFormgroup">
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>code rapport</mat-label>
+        <input matInput aria-label="code" placeholder="code" formControlName="code" required />
+    </mat-form-field>
+    <br> -->
+        <mat-form-field>
+            <mat-label>Etat</mat-label>
+            <mat-select formControlName="etat" (selectionChange)="change($event)" >
+              <mat-option *ngFor="let etat of etatList" [value]="etat">{{ etat }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>utilisateur</mat-label>
+            <input matInput aria-label="utilisateur" placeholder="utilisateur" formControlName="user" required />
+        </mat-form-field>
+          <br> -->
+          <mat-form-field class="example-full-width">
+            <mat-label>Commentaire</mat-label>
+            <textarea matInput  formControlName="comment" placeholder="commentaire..."></textarea>
+          </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-content *ngIf="loginService.userRole && !loginService.userRole.includes('ROLE_ADMIN')">
+  <form [formGroup]="editFormgroup">
+  <mat-dialog-content>
+    <p>{{data.message}} {{data.month1}}/{{data.year}} ?  </p>
+  </mat-dialog-content>
+</form>
+</div>
+<div mat-dialog-actions align="end" class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button cButton color="secondary"   mat-button (click)="onCancel()" class="me-md-2">Annuler</button>
+    <button cButton mat-button color="primary" color="primary" [mat-dialog-close]="this.editFormgroup" class="custom-button">{{data.value}}</button>
+</div>

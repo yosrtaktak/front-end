@@ -1,7 +1,10 @@
 :host {
   ng-scrollbar {
-    --scrollbar-thumb-color: var(--cui-border-color, #999);
+    --scrollbar-thumb-color: var(--cui-border-color, #fff);
     --scrollbar-track-color: var(--cui-body-color, #fff);
     --scrollbar-hover-size: calc(var(--scrollbar-size) * 1.5);
   }
+}
+.white-background {
+  background-color: white; /* Définissez la couleur de fond sur blanc */
 }

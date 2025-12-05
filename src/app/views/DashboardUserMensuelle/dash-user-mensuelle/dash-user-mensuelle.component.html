@@ -1,0 +1,160 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+ 
+  <style>
+          @media screen and (max-width: 900px) {
+            body{
+          max-width: 225%;
+      
+        }
+        .table-container {
+                overflow-x: auto;
+                max-width: 225%;
+                margin-left: 0;
+            }
+            .example-container {
+        overflow-x: auto; 
+       
+        display: block; 
+
+      }
+      .example-container1 {
+        overflow-x: auto; 
+        max-width: 100%; 
+        display: block; 
+     
+      }
+            .year-select {
+                width: 100%; 
+                z-index: 9999; 
+                position: relative; 
+            }
+            .row {
+                flex-direction: column;
+            }
+            .mat-header-cell,
+            .mat-cell {
+                padding: 4px; 
+                font-size: 10px; 
+                max-width: 50px; 
+                white-space: nowrap; 
+                overflow: hidden; 
+                text-overflow: ellipsis; 
+            }
+            .chart-container {
+              width: 700px;
+                margin-left:0; 
+            }
+            .chart-container1 {
+              width:700px;
+               margin-left: 4px; 
+           }
+           .chart-container2 {
+               max-width: 225%;
+                margin-left:0; 
+            }
+    
+        .col-6:first-child {
+    flex: 0 0 100%; 
+    max-width: 100%; 
+  }
+
+        .mat-select {
+            width: calc(100% - 20px);
+            position: absolute;
+            left: 10px; 
+            top: calc(100% + 5px); 
+        }
+    
+        }
+
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body >
+<c-navbar colorScheme="light" expand="lg" class="bg-light" style="height: 50px">
+  <c-container fluid>
+    <button [cNavbarToggler]="collapseRef"></button>
+    <div #collapseRef="cCollapse" navbar cCollapse>
+      <c-navbar-nav class="me-auto mb-2 mb-lg-0">
+        <c-nav-item>
+          <a cNavLink routerLink="./dashboard">Menu</a>
+        </c-nav-item>
+        <c-nav-item>
+          <a cNavLink disabled class="d-block d-lg-none d-xl-block"></a>
+        </c-nav-item>
+      </c-navbar-nav>
+    </div>
+  </c-container>
+</c-navbar>
+<br>
+<c-callout color="info" style="font-size: 24px">
+  Pourcentage de travail mensuel :
+</c-callout>
+
+<div *ngIf="this.selectedRapport">
+  <c-alert color="info">Rapport sélectionné : {{ this.selectedRapport.code}} </c-alert>
+</div>
+<div class="row example-container1">
+  <div class="col-6  ">
+    <div class="table-container">
+      <div class="chart-container">
+        <div class="search-container">
+          <mat-form-field class="d-flex" role="search" style="width: 650px;">
+            <div class="d-flex align-items-center">
+              <mat-icon class="search-icon">search</mat-icon>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher" class="search-input">
+            </div>
+          </mat-form-field>
+        </div>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="Code">
+            <th mat-header-cell *matHeaderCellDef> Code rapport </th>
+            <td mat-cell *matCellDef="let element" (click)="handleClickOnRapport(element)"> <button cButton color="link">{{ element.code }}</button> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Mois">
+            <th mat-header-cell *matHeaderCellDef> Mois </th>
+            <td mat-cell *matCellDef="let element"> {{ element.month }} </td>
+          </ng-container>
+          <ng-container matColumnDef="Année">
+            <th mat-header-cell *matHeaderCellDef> Année </th>
+            <td mat-cell *matCellDef="let element"> {{ element.year }} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+      </div>
+      <mat-paginator [pageSizeOptions]="[5 , 10, 20]"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements">
+    </mat-paginator>  
+    </div>
+  </div>
+
+  <div class="col-6 chart-container example-container ">
+    <ng-container *ngIf="projetMonth && projetMonth.length > 0">
+    <div *ngIf="this.selectedRapport" >
+    <div class="">
+      <c-chart [data]="data2" type="doughnut" width="450" height="500" #chart></c-chart>
+    </div>
+  </div>
+  </ng-container>
+  </div>
+  <br>
+    <div class="chart-container example-container" >
+      <c-chart  [data]="data4" type="bar" width="1300" height="500" #chart></c-chart>
+    </div>
+
+</div>
+</body>
+</html>

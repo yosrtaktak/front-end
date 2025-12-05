@@ -1,0 +1,33 @@
+.custom-dialog-title {
+  font-size: 24px; /* Taille de la police */
+  font-weight: bold; /* Police en gras */
+  margin: 20px 0; /* Ajouter de la marge en haut et en bas */
+  padding-bottom: 10px; /* Ajouter un peu de rembourrage en bas */
+ 
+}
+.custom-dialog-content {
+  padding: 20px;
+}
+
+.custom-form-field {
+  width: 100%;
+}
+
+.custom-label {
+  color: #1c569f;
+}
+
+.custom-button {
+  background-color: #1c569f;
+  color: white;
+}
+
+.custom-button:hover {
+  background-color: #14538c;
+}
+.spacer {
+  margin-right: 10px; /* Vous pouvez ajuster la valeur de la marge selon votre besoin */
+}
+.field-spacing {
+  margin-bottom: 20px; /* Ajoute un espacement de 20px entre les champs */
+}

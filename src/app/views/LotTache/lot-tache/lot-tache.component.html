@@ -1,0 +1,138 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Management</title>
+  <style>
+    
+    @media screen and (max-width: 767px) {
+  .custom-button {
+    margin-left: 180px; /* Ajustez la marge gauche selon vos besoins */
+  }
+  .example-container {
+        overflow-x: auto; /* Ajoute une barre de défilement horizontale */
+        max-width: 100%; /* Assurez-vous que le tableau ne dépasse pas la largeur de l'écran */
+        display: block; /* Permet au conteneur de définir sa propre largeur */
+      }
+      h2{
+        font-size: 20px;
+      }
+}
+    
+    .page-heading {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333; 
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="example-container">
+
+<c-navbar colorScheme="light" expand="lg" class="bg-light">
+  <c-container fluid>
+    <button [cNavbarToggler]="collapseRef"></button>
+    <div #collapseRef="cCollapse" navbar cCollapse>
+      <c-navbar-nav class="me-auto mb-2 mb-lg-0">
+        <c-nav-item>
+          <a cNavLink routerLink="./dashboard">Home</a>
+        </c-nav-item>
+        <c-nav-item>
+          <a cNavLink disabled class="d-block d-lg-none d-xl-block"></a>
+        </c-nav-item>
+      </c-navbar-nav>
+    </div>
+  </c-container>
+</c-navbar>
+<mat-toolbar style="background-color: #1c569f">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6">
+        <p class="page-heading text-white" style="font-size: 24px;margin-top: 8px;margin-right: 450px;">Liste des lots et tâches</p>
+
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <button cButton  class="custom-button" style="margin-left: 1020px;" color="light" variant="outline"  (click)="addLot()"> <mat-icon style="height: 18px">add</mat-icon> Ajouter </button>
+
+      </div>
+    </div>
+  </div>
+</mat-toolbar>
+ <mat-dialog-content class="mat-typography "  >     
+  <h2 >{{this.data.code}} : {{this.data.libelle}}</h2>
+  <table mat-table [dataSource]="lots" class="mat-elevation-z8 "  class="custom-header">
+     ID Column
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let lot"> {{lot.id}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="code">
+      <th mat-header-cell *matHeaderCellDef> Code </th>
+      <td mat-cell *matCellDef="let lot"> {{lot.code}} </td>
+    </ng-container>
+  
+  
+    <ng-container matColumnDef="libelle">
+      <th mat-header-cell *matHeaderCellDef> Libellé </th>
+      <td mat-cell *matCellDef="let lot"> {{lot.libelle}} </td>
+    </ng-container>
+  
+
+    <ng-container matColumnDef="taches" class="mat-typography">
+      <th mat-header-cell *matHeaderCellDef> Tâches associées </th>
+      <td mat-cell *matCellDef="let lot">
+        <ul *ngFor="let tache of lotTachesMap.get(lot.id)">
+          
+            <span style="font-size: larger;">{{ tache.code }} : {{ tache.libelle }}</span>
+            <button [cPopoverTrigger]="'hover'" cButton cPopover="modifier tache"  cPopoverPlacement="bottom" color="warning" variant="ghost" size="sm" (click)="editTache(tache)" >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button  style="margin: 10px" [cPopoverTrigger]="'hover'" cButton cPopover="supprimer tache"  cPopoverPlacement="bottom" color="danger" variant="ghost" size="sm" (click)="onDeleteTache(tache.id)">
+              <mat-icon>cancel</mat-icon>
+            </button> 
+
+
+          
+        </ul>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let lot" class="detail-cell">
+          <div class="button-container"> 
+          <button [cPopoverTrigger]="'hover'" cButton cPopover="modifier lot"  cPopoverPlacement="bottom" color="warning" variant="ghost" size="sm" (click)="editLot(lot)" >
+            <mat-icon>edit</mat-icon>
+          </button>
+              <button  style="margin: 10px" [cPopoverTrigger]="'hover'" cButton cPopover="supprimer lot"  cPopoverPlacement="bottom" color="danger" variant="ghost" size="sm" (click)="onDeleteLot(lot.id)">
+                <mat-icon>cancel</mat-icon>
+              </button> 
+            <button [cPopoverTrigger]="'hover'" cButton cPopover="ajouter tache"  cPopoverPlacement="bottom" color="success" variant="ghost" size="sm" (click)="addTache(lot.id)" >
+                <mat-icon>add</mat-icon>
+              </button> 
+              <!-- <nav class="menu">
+                <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open"/>
+                <label class="menu-open-button" for="menu-open">
+                  <span class="hamburger hamburger-1"></span>
+                  <span class="hamburger hamburger-2"></span>
+                  <span class="hamburger hamburger-3"></span>
+                </label>
+                
+                <a  class="menu-item" (click)="editLot(lot)">  <mat-icon>edit</mat-icon> </a>
+                <a  class="menu-item" (click)="onDeleteLot(lot.id)">  <mat-icon>cancel</mat-icon> </a>
+                <a  class="menu-item" (click)="addTache(lot.id)">  <mat-icon>add</mat-icon> </a>
+                </nav> -->
+                </div>
+        </td>
+      </ng-container>
+    <tr mat-header-row *matHeaderRowDef="['id', 'code', 'libelle', 'taches','actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['id', 'code', 'libelle', 'taches','actions'];"></tr>
+  </table>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button cButton mat-dialog-close color="primary" (click)="onCancel()" class="custom-button">Cancel</button>
+  </mat-dialog-actions>
+  </body>
+  </html>
+  

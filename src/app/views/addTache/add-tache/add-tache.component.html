@@ -1,0 +1,26 @@
+<h6 mat-dialog-title class="dialog-title">{{data.value}} tâche </h6>
+<br>
+<div mat-dialog-content>
+    <form [formGroup]="editFormgroup" (ngSubmit)="onSubmit()">
+         <mat-form-field appearance="outline">
+            <mat-label >Code tache</mat-label>
+            <input matInput aria-label="code" placeholder="code" formControlName="code" required />
+           <br>
+            <mat-error *ngIf="editFormgroup.get('code')?.invalid && (editFormgroup.get('code')?.dirty || editFormgroup.get('code')?.touched)">
+                required</mat-error>
+        </mat-form-field>
+        <br> 
+        <mat-form-field appearance="outline">
+            <mat-label>Libelle tache</mat-label>
+            <input matInput aria-label="libelle" placeholder="libelle" formControlName="libelle" required />
+           <br>
+            <mat-error *ngIf="editFormgroup.get('libelle')?.invalid && (editFormgroup.get('libelle')?.dirty || editFormgroup.get('libelle')?.touched)">
+                required</mat-error>
+        </mat-form-field> 
+<br>
+</form>
+</div>
+<div mat-dialog-actions align="end" class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button cButton color="secondary"  mat-button (click)="onCancel()" class="me-md-2" class="cancel-button">Annuler</button>
+    <button cButton mat-button color="primary" color="primary" [mat-dialog-close]="this.editFormgroup" [disabled]="editFormgroup.invalid" class="custom-button">{{data.value}}</button>
+</div>
